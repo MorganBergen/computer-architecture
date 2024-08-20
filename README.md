@@ -15,7 +15,7 @@ introduces a multilevel approach to computer systems, with an emphasis on micro 
 
 ##  schedule
 
-| week | note | 
+
 
 ##  concepts
 
