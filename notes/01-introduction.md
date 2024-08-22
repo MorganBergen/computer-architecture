@@ -1,23 +1,23 @@
 #  01 computer abstraction and technology
 
-[1.1  introduction](#11introduction) 
-[1.2  eight great ideas in computer architecture](#12eight-great-ideas-in-computer-architecture)
-[1.3  below your program](#13below-your-program) 
-[1.4  under the covers](#14under-the-covers) 
-[1.5  technologies for building processors and memory](#15technologies-for-building-processors-and-memory)
-[1.6  performance](#16performance) 
-[1.7  the power wall](#17the-power-wall) 
-[1.8  the sea change -  the switch from uniprocessors to multiprocessors](#18the-sea-change---the-switch-from-uniprocessors-to-multiprocessors) 
-[1.9  real stuff -  benchmarking the intel core i7](#19real-stuff---benchmarking-the-intel-core-i7) 
-[1.10  fallacies and pitfalls](#110fallacies-and-pitfalls) 
-[1.11  concluding remarks](#111concluding-remarks)
-[1.12  historical perspective and further reading](#112historical-perspective-and-further-reading) <br>
+1.  [introduction](#introduction) 
+2.  [eight great ideas in computer architecture](#eight-great-ideas-in-computer-architecture)
+3.  [below your program](#below-your-program) 
+4.  [under the covers](#under-the-covers) 
+5.  [technologies for building processors and memory](#technologies-for-building-processors-and-memory)
+6.  [performance](#performance) 
+7.  [the power wall](#the-power-wall) 
+8.  [the sea change -  the switch from uniprocessors to multiprocessors](#the-sea-change---the-switch-from-uniprocessors-to-multiprocessors) 
+9.  [real stuff -  benchmarking the intel core i7](#real-stuff---benchmarking-the-intel-core-i7) 
+10.  [fallacies and pitfalls](#fallacies-and-pitfalls) 
+11.  [concluding remarks](#concluding-remarks)
+12.  [historical perspective and further reading](#historical-perspective-and-further-reading) <br>
 
 **cs 394 computer architecture**
 
 **august 22 2024**
 
-##  1.1 introduction
+##  introduction
 
 computers have led to a third revolution for civilization, with the information revolution taking its place alongside the agricultural and the industrial revolutions.  each time the cost of computing proves by another factor of 10 as the computer revolution continues, the opportunities for computers multiply.  applications that were economically infeasible suddenly become practical.
 
