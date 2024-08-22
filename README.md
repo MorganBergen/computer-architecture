@@ -8,6 +8,12 @@
 
 introduces a multilevel approach to computer systems, with an emphasis on micro architecture and instruction set architecture levels.  also introduces techniques to improve performance such as cache memory and instruction level parallelism.
 
+##  notes
+
+[01 introduction](./notes/01-introduction.md) <br>
+[01 lecture](./notes/01-lecture.md) <br>
+[02 lecture](./notes/02-lecture.md) <br>
+
 ##  textbooks
 
 -  [computer organization and design: the hardware / software interface, arm edition](./info/01-book.pdf)
