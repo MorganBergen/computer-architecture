@@ -15,8 +15,6 @@ introduces a multilevel approach to computer systems, with an emphasis on micro 
 
 ##  schedule
 
-
-
 ##  concepts
 
 **chapter 1 introduction**

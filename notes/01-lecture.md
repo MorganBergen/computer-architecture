@@ -29,7 +29,6 @@
 -  materials:  steel, concrete, brick, wood, glass
 -  goals:  function, cost, safety, ease of construction, energy efficiency, fast building time, aesthetics
 -  buildings:  houses, offices apartments, stadiums, museums
-
 -  technology:  logic gates, sram, dram, circuit techniques, packaging, magnetic storage, flash memory
 -  goals:  function, performance, reliability, cost / manufacturing, energy efficiency, time to market
 -  computers:  desktops, servers, mobile phones, supercomputers, game consoles, embedded
