@@ -434,14 +434,35 @@ therefore, sequence 1 executes fewer instructions.  we can use the equation for 
 
 $$\text{CPU clock cycles} = \sum_{i = 1}^{n}{\text{CPI}_{i} \times \text{C}_{i}}$$
 
-this 
+$$\text{CPU clock cycles} = (2 \times 1) + (1 \times 2) + (2 \times 3) = 2 + 2 + 6 = 10 \text{ cycles}$$
 
+$$\text{CPU clock cycles} = (4 \times 1) + (1 \times 2) + (1 \times 3) = 4 + 2 + 3 = 9 \text{ cycles}$$
 
+so code sequence 2 is faster, even though it executes one extra instruction.  since code sequence 2 is takes fewer overall clock cycles but has more instructions, it must have a lower cpi.  the cpi values can be computed by 
 
+$$\text{CPI} = \frac{\text{GPU clock cycles}}{\text{instruction count}}$$
 
+$$\text{CPI}_{1} = \frac{\text{GPU clock cycles}_{1}}{\text{instruction count}_{1}} = \frac{10}{5} = 2.0$$
 
+$$\text{CPI}_{2} = \frac{\text{GPU clock cycles}_{2}}{\text{instruction count}_{2}} = \frac{9}{6} = 1.5$$
 
+the following table shows the basic measurements at different levels in the computer and what is being measured in each case.  we can see how these factors are combined to yield execution time measured in seconds per program
 
+$$\text{time} = \text{seconds}/\text{program} = \frac{\text{instructions}}{\text{program}} \times \frac{\text{clock cycles}}{\text{instruction}} = \frac{\text{seconds}}{\text{clock cycle}}$$
 
+always bear in mind that the only complete and reliable measure of computer performance is time.  for example, changing the instruction set to lower the instruction count may lead to an organization with a slower clock cycle time or higher cpi that offsets the improvement in instruction count.  similarly, because cpi depends on the type of instructions executed, the code that executes the fewest number of instructions may not be the fastest.
+
+####  the basic components of performance and how each is measured
+
+| components of performance              | units of measure                               |
+|:---------------------------------------|:-----------------------------------------------|
+| cpu execution time for a program       | seconds for the program                        |
+| instruction count                      | instructions executed for the program          |
+| clock cycles per instruction (cpi)     | average number of clock cycles per instruction |
+| clock cycle time                       | seconds per clock cycle                        |
+
+how can we determine the value of these factors in the performance equation?  we can measure the cpu execution time by running the program, and the clock cycle time is usually published as part of the documentation for a computer.  the instruction count and cpi can be more difficult to obtain.  of course, if we know the clock rate and the cpu execution time, we need only one of the instruction count or the cpi to determine the other.
+
+we can measure count by using software tools that profile the execution or by using a simulator of the architecture.  alternatively, we can use hardware counters, which are included in most processors, to record a variety of measurements, including the number of instructions executed, the average cpi, and often, the sources of performance loss.  since the instruction count depends on the architecture, but not the exact implementation, we can measure the instruction count without knowing all the details of the implementation.  the cpi, however, depends on a wide variety of design details in the computer, including both the memory system as the processor structure, as well as the mix of instruction type executed in an application.  thus, cpi varies by application, as well as among implementations with the same instruction set.
 
 
