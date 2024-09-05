@@ -8,11 +8,12 @@
 
 introduces a multilevel approach to computer systems, with an emphasis on micro architecture and instruction set architecture levels.  also introduces techniques to improve performance such as cache memory and instruction level parallelism.
 
-##  notes
+##  book notes
 
 [01 introduction](./notes/01-introduction.md) <br>
-[01 lecture](./notes/01-lecture.md) <br>
-[02 lecture](./notes/02-lecture.md) <br>
+[01.1 structured computer organization](./notes/01.1-structured-computer-organization.md)
+
+##  lecture notes
 
 ##  textbooks
 
@@ -20,6 +21,36 @@ introduces a multilevel approach to computer systems, with an emphasis on micro 
 -  [structured computer organization, 6th edition](./info/00-book.pdf)
 
 ##  schedule
+
+**week 1** 
+
+introduction to computer architecture 
+
+1.1 introduction to computers 
+
+1.2 eight ideas in computer architecture 
+
+1.3 below your program 
+
+1.4 under the covers                 
+
+assignment 01
+
+**week 2**
+
+introduction to computer architecture 
+
+1.6 performance
+
+1.7 the power wall
+
+1.8  the sea change - the switch from uniprocessors to multiprocessors
+
+1.9 real stuff - benchmarking the intel core i7
+
+
+
+introduction to structured computer organization 
 
 ##  concepts
 
