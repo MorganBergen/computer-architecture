@@ -25,7 +25,7 @@ computers have led to a third revolution for civilization, with the information 
 
 **world wide web**  the web has replaced libraries and newspapers
 
-**search engines**  as the content of web grew in size and in value, finding relevant information becauses increasingly important.  today, many people rely on search engines for such a large part of their lives that would be a hardship to go without them.
+**search engines**  as the content of web grew in size and in value, finding relevant information because increasingly important.  today, many people rely on search engines for such a large part of their lives that would be a hardship to go without them.
 
 hardware advances have allowed programmers to create wonderfully useful software, which explains why computers are omnipresent.  
 
@@ -478,8 +478,59 @@ the performance of a program depends on the algorithm, the language, the compile
 
 ##  the power wall
 
+the figure below shows the increase in clock rate and power of eight generations of intel microprocessors over 30 years.  both clock rate and power increased rapidly for decades, and then flattened off recently.  the reason they grew together is that they are correlated, and the reason for their recent slowing is that we have tun into the practical power limit for cooling commodity microprocessors.  
 
+<p align=center>
+    <img src="./assets/intel.png">
+</p>
 
+although power provides a limit to what we can cool, in the postpc era the really critical resource is energy.  battery life can trump performance in the personal mobile device, and the architects of warehouse scale computers try to reduce the costs of powering and cooling 100,000 servers as the costs are high at this scale.  just as measuring time in seconds is a safer measure of program performance than a rate like mips, the energy metric joules is a better measure than a power rate like watts, which is juts joules/second.  
+
+the dominant technology for integrated circuits is called cmos (complementary metal oxide semiconductor)  for cmos, the primary source of energy consumption is so called dynamic energy - that is, energy that is consumed when transistors switch states from 0 to 1 and vice versa.  the dynamic energy depends on the capacitive loading of each transistor and the voltage applied
+
+energy $\propto$ capacitive load $\times$ voltage$^2$
+
+this equation is the energy of a pulse during the logic transition of 0 $\rightarrow$ 1 $\rightarrow$ 0 or 1 $\rightarrow$ 0 $\rightarrow$ 1.  the energy of a single transition is then
+
+energy $\propto$ 1/2 $\times$ capacitive load $\times$ voltage$^2$
+
+the power required per transistor is just the product of energy of a transition and the frequency of transitions
+
+power $\propto$ 1/2 $\times$ capacitive load $\times$ voltage$^2$ $\times$ frequency switched
+
+frequency switched is a function of the clock rate.  the capacitive load per transistor is a function of both the number of transistors connected to an output called fanout and the technology, which determines the capacitance of both wires and transistors.  with regard to the figure above, how could clock rates grow by a factor of 1000 while power grew only a factor of 30?  energy and thus power can be reduced by lowering the voltage, which occurred with each new generation of technology, and power is a function of the voltage squared.  typically the voltage was reduced about 15% per generation.  in 20 years, voltages have gone down from 5v to 1v, which is why the increase in power is only 30 times.
+
+###  relative power
+
+suppose we developed a new simpler processor that has 85% of the capacitive load of some of the more complex older processor.  further, assume that it has adjustable voltage so that it can reduce voltage 15% compared to processor b, which results in a 15% shrink in frequency.  what is the impact on dynamic power?
+
+$$\frac{\text{power}_\text{new}}{\text{power}_\text{old}} = \frac{\langle\text{capacitive load} \times 0.85\rangle \times \langle \text{voltage} \times 0.85\rangle^2 \times \langle\text{frequency switched} \times 0.85\rangle}{\text{capacitive load} \times \text{voltage}^2 \times \text{frequency switched}}$$
+
+the power ratio is
+
+$$0.84^4 = 0.52$$
+
+therefore the new processor uses about half of the old processor
+
+the problem today is that further lowering of the voltage appears to make the transistors too leaky, like water faucets that cannot be completely shut off.  even today about 40% of the power consumption in server chips is due to leakage.  if transistors started leaking more, the whole process could become wieldy.  to try to address the power problem, designers have already attached large devices to increase cooling, and they turn off parts of the chip that are not used in a given clock cycle.  although there are many more expensive ways to cool chips and thereby raise their power to, say 300 watts, these techniques are generally too expensive for personal computers and even servers, not to mention personal mobile devices.
+
+since computer designers slammed into a power wall, they needed a new way forward.  they chose a different path from the way designed microprocessors for their first 30 years.
+
+##  the switch from uniprocessors to muliprocessors
+
+the power limit has forced a dramatic change in the design of microprocessors.  the figure below shows the improvement in response time of programs for desktop microprocessors over time.  since 2002, the rate has slowed from a factor of 1.5 per year to a factor of 1.2 per year.  
+
+rather than continuing to decrease the response time of a single program running on a single processor, as of 2006 all desktop and server companies are shipping microprocessors with multiple processors per chip, where the benefit is often more on throughput than on response time.  to reduce confusion between the words processor and microprocessor, companies refer to processors as cores and such microprocessors are generically called multicore microprocessors.  hence, a quadcore microprocessor is a chip that contains four processors or four cores.
+
+<p align=center>
+    <img src="./assets/growth.png" width=500px>
+</p>
+
+in the past programmer could rely on innovations in hardware, architecture, and compilers to double performance on their programs every 18 months without having to change a line of code.  today, for programmers to get significant improvements in response time, they need to rewrite their programs to take advantage of multiple processors.  moreover, to get the historic benefit of running faster on new microprocessors, programmer will have to continue to improve performance of their code as the number of cores increases.  
+
+to reinforce how the software and hardware systems work hand in hand, we use a spacial section, hardware / software interface.
+
+**parallelism** has always been critical to performance in computing, but it was often hidden.  **pipelining** an elegant technique that runs programs faster by overlapping the execution of instruction.  this one example of instruction level parallelism, where the parallel nature of the hardware is abstracted away so the programmer and compiler can think of the hardware as executing instructions sequentially.  forcing programmers to be away of the parallel hardware and to explicitly write their programs to be parallel has been the third rail of computer architecture, for companies in the past that depended on such a change in behavior failed.  from this historical perspective, it's startling that the whole it industry has bet its future that programmer will finally successfuly switch to explicitly parallel programming.
 
 ##  terms
 
