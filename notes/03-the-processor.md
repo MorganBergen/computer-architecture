@@ -8,6 +8,7 @@
 6.  [control hazards](#control-hazards)
 7.  [parallelism via instructions](#parallelism-via-instructions)
 8.  [ilp and matrix multiply](#ilp-and-matrix-multiply)
+9.  [questions and answers](#questions-and-answers)
 
 ##  introduction
 
@@ -50,9 +51,38 @@ first, in several places, the figure above shows data going to a particular unit
 
 the second omission in the figure above is that several of the units must be controlled depending on the type of instruction.  for example, the data memory must be read on a load and write on a store.  the register file must be written only on a load or an arithmetic logical instruction.  and of course, the alu must perform one of several operations.  like the multiplexor, control lines that are set based on various fields in the instruction direct these operations.
 
-the figure below shows the datapath
+the figure below shows the datapath of abstract view of the implementation of the legv8 subset with the three required multiplexors added, as well as control lines for the major functional units.   a control unit which as has the instruction as an input is ued to determine how to set the control lines for the functional units and two of the multiplexors.  the top multiplexor, which determines whether pc + 1 or the branch destination address is written into the pc, is set based on teh zero output of the alu, which is used to perform the comparison of the `CBZ` instruction.  the regularity and simplicity of the legv8 instruction set mean that a simple decoding process can be used to determine how to set the control lines.
+
+####  the basic implementation of the legv8 subset, including the necessary multiplexors and control lines
+
+the top multiplexor `MUX` controls what value places the `PC` `PC + 4` or the branch destination address; the multiplexor is controlled by the gate and `ANDs` together the zero output of the alu and ta control signal that indicates that the instruction is a branch.  the middle multiplexor, whose output returns to the register file, is used to steer the output of the alu (in teh case of an arithmetic logical instruction) or the output of the data memory (in the case of a load) for writing into the register file.  finally the bottom most multiplexor is used to determine whether the second alu input is from the register (for an arithmetic logical instruction or a branch) or from the offset field of the instruction (for a load or store).  the added control lines are straightforward and determine the operation performed at the alu, whether the data memory should read or write, and whether the registers should perform a write operation.  the control lines are shown in color to make them easier to see.
+
+<div align="center">
+<img width="500" src="https://zytools.zybooks.com/zyAuthor/CompOrgAndDesign_PattersonHennesy/56/IMAGES/embedded_image_1arm_6217a3ca-0327-636c-62bd-82f4147f1b5c_5fPSCoDUJwAdYDA1Hv94.png">
+</div>
+
+further in this reading we will refine this view to fill in teh details, which requires that we add further functional units, increase the number of connection between units, and of course, enhance a control unit to control what actions are taken for different instruction classes.  cod section 4.3 building a datapath and 4.4 a simple implementation scheme describe a simple implementation that uses a single clock cycle for every instruction and follows the general form of the above figures.  in this first design, every instruction begins execution on one clock edge and completes execution on teh next clock edge.
+
+while easier to understand, this approach is not practical, since the clock cycle must be severely stretched to accommodate the longest instruction.  after designing the control for this simple computer, we will look at pipelined implementation with all its complexities, including exceptions.
 
 ##  building a datapath
+
+a reasonable way to start a datapath design is to examine the major components required to execute each class of legv8 instructions.  let's start at the top by looking at which datapath elements each instruction needs, and then work our way down through the levels of **abstraction**.  when we show the datapath elements, we will also show their control signals.  we use abstraction in this explanation, starting from the bottom up.
+
+**datapath element** -  a unit used to operate on or hold data within a processor.  in the legv8 implementation, the datapath elements include the instruction and data memories, the register file, the alu, and adders.
+
+item a in the figure below shows the first element we need -  a memory unit to store the instructions of a program and supply instructions given an address.  item b in the figure below also shows the **program counter pc**, which is a register that holds the address of the current instruction.  lastly, we will need an adder to increment the **pc** to the address of the next instruction.  this adder, which is combinational, can be built from the alu described in detail, by writing the control lines so that the control always specifies an add operation.  we will draw such an alu with the label add as in the figure below, to indicate that it has been permanently made an adder and cannot perform the other alu functions.
+
+**program counter pc** -  the register containing the address of the next instruction in the program being executed.
+
+####  the two state elements are needed to store and access instructions, and an adder is needed to compute the next instruction address 
+
+the state elements are the instruction memory and the program counter.  the instruction memory need only provide read access because the datapath does not write instructions.  since the instruction memory only reads, we treat it as combinational logic -  the output at any time reflects the content of the location specified by the address input, and no read control is needed.  we will need to write the instruction memory when we load the program;  this is not hard to add, we ignore it for simplicity.  the program counter is a 64-bit register that is written at the end of every clock cycle and thus does not need to write control signal.  the adder is an alu wired to always add its two 64-bit inputs and place the sum on its output.
+
+<div align="center">
+<img width="500" src="https://zytools.zybooks.com/zyAuthor/CompOrgAndDesign_PattersonHennesy/56/IMAGES/embedded_image_1arm_b83433e2-87d9-7033-0d21-b483ad0ea26a_5fPSCoDUJwAdYDA1Hv94.png">
+</div>
+
 
 ##  overview of pipelining
 
@@ -80,6 +110,18 @@ the figure below shows the datapath
 
 3rd step for branch instructions -  use alu for comparisons -  the result of the comparison determines whether the branch should be taken.
 
+2.  how many of the five classic components of a computer appear in the figure 
 
+<div align="center">
+<img width="500" src="https://zytools.zybooks.com/zyAuthor/CompOrgAndDesign_PattersonHennesy/56/IMAGES/embedded_image_1arm_6217a3ca-0327-636c-62bd-82f4147f1b5c_5fPSCoDUJwAdYDA1Hv94.png">
+</div>
 
+input - false - the figure does not show additional mechanisms through which the computer is fed information, such as a keyboard.  
 
+memory -  true -  the instruction memory stores the program that is to be executed.  the data memory stores the data needed by the running programs.
+
+control -  true -  the control unit commands the datapath according to the instructions of the program by setting the control lines for each of the major functional units.
+
+datapath -  true -  the datapath elements include the instruction and data memories, the register file, the alu, and adders.
+
+output -  false -  the figure does not show additional mechanisms that convey the result of a computation, such as a display, to a user or to another computer.
