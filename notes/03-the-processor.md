@@ -83,6 +83,89 @@ the state elements are the instruction memory and the program counter.  the inst
 <img width="500" src="https://zytools.zybooks.com/zyAuthor/CompOrgAndDesign_PattersonHennesy/56/IMAGES/embedded_image_1arm_b83433e2-87d9-7033-0d21-b483ad0ea26a_5fPSCoDUJwAdYDA1Hv94.png">
 </div>
 
+to execute any instruction, we must start by fetching the instruction from memory.  to prepare for executing the next instruction, we must also increment the program counter so that it points at the next instruction, 4 `bytes` later.  the animation below shows hwo to combine the three elements from the above figure to form a datapath that fetches instructions and increments the `pc` to obtain the address of the next sequential instruction.
+
+a portion of the datapath used for fetching instructions and incrementing the program counter.  after the `pc` is written with an address of a positive clock edge, a new instruction is read from the instruction memory.  simultaneously the next address is calculated, waiting to be written to the `pc` on the next positive clock edge.
+
+now let's consider the r-format instruction figure 2.21 LEGv8 instruction formats
+
+|  name |  fields |  comments |
+|:------|:-------|:---------|
+| <p style="color:red">r-format</p> | `opcode`, `Rm`, `shamt`, `Rn`, `Rd` | arithmetic instruction format |
+| <p style="color:orange">i-format</p> | `opcode`, `immediate`, `Rn`, `Rd` | immediate format |
+| <p style="color:yellow">d-format</p> | `opcode`, `address`, `op2`, `Rn`, `Rd` | data transfer format |
+| <p style="color:green">b-format</p> | `opcode`, `address` | unconditional branch format |
+| <p style="color:pink">cb-format</p> | `opcode`, `address`, `Rt` | conditional branch format |
+| <p style="color:blue">im-format</p> | `opcode`, `immediate`, `Rd` | wide immediate format | 
+
+<span style="color:red">r-format</span> - <span style="color:red">register</span> based arithmetic format instructions.  for example an `ADD` instruction, `Rn` and `Rm` hold the values to be added, and the result is stored in `Rd`.
+
+`opcode` - specifies the operation to be performed.
+
+`Rm` - specifies the source register for one operand
+
+`shamt` -  represents a shift amount used for shift instructions.
+
+`Rn` -  specifies the source register for the second operand
+
+`Rd` -  specifies the destination register where the result will be stored.
+
+<span style="color:orange">i-format</span> - <span style="color:orange">immediate</span> format instructions.  used for operations where one operand is a constant (immediate) value.  for example, an `ADD` instruction might add a constant value to the contents of `Rn` and store the result in `Rd`
+
+`opcode` -  specifies the operation to be performed.
+
+`immediate` -  specifies a constant value used in the instruction.
+
+`Rn` -  specifies the source register for the second operand
+
+`Rd` -  specifies the destination register where the result will be stored.
+
+<span style="color:yellow">d-format</span> - <span style="color:yellow">data</span> transfer format.  used for load and store instructions (transferring data between memory and registers).
+
+`opcode` -  specifies the operation (`LOAD` or `STORE`)
+
+`address` -  species the memory address or a value to compute the address
+
+`op2` -  sometimes used for offsets or other modifiers
+
+`Rn` -  species the base register for the memory address
+
+`Rd` -  specifies the destination register for `LOAD`, or source register for `STORE`
+
+<span style="color:green">b-format</span> used for unconditional <span style="color:green">branch</span> instructions which is a jump to a new address.  for example an unconditional branch will jump to the `address` regardless of any condition.
+
+`opcode` -  specifies the branch operation 
+
+`address` -  the target address for the branch
+
+<span style="color:pink">cb-format</span>  -  <span style="color:pink">conditional branch</span> format.  used for conditional branch instructions.  for example if the value in `Rt` is zero the processor will jump to `address`.
+
+`opcode` -  specifies the branch operation `CBZ` for compare and branch on zero
+
+`address` -  the target address for the branch if the condition is met
+
+`Rt` -  specifies the register to compare (typically for zero/non zero comparison)
+
+<span style="color:blue">im-format</span> - <span style="color:blue">immediate</span> format.  used for operations that involve wide immediate value (often larger than what a normal immediate field can hold).  for example this might be used in operations that require a large constant value, such as a wide `MOV` operation.
+
+`opcode` -  specifies the operation
+
+`immediate` -  contains the wide immediate value (a larger constant).
+
+`Rd` -  specifies the destination register where the result will be stored.
+
+<div align="center">
+<img width="500" src="https://zytools.zybooks.com/zyAuthor/CompOrgAndDesign_PattersonHennesy/56/IMAGES/embedded_image_1arm_4038d874-ea86-dec1-335d-4ca086525d68_JXVUARv7W4fWSGOEupz1.png">
+</div>
+
+they all read two registers, perform an alu operation on the contents of the register. and write the result to a register.  we call these instructions either <span style="color:red">r-format</span> instructions since they perform arithmetic or logical operations.  this instruction class includes `ADD`, `SUB`, `AND`, and `ORR`.  recall that a typical instance of an instruction is `ADD x1, x2, x3` which reads `X2` and `X3` writes the sum into `X1`.
+
+the processor's 32 general purpose registers are stored in a structure called a **register file**.  a register file is a collection of registers in which any register can be read or written by specifying the number of the register in the file.  the register file contains the register state of the computer.  in addition, we will need an ALU to operate on the values read from the register.  
+
+**register file** -  a state element that consists of a set of registers that can be read and written by supplying a register number to be accessed.
+
+<span style="color:red">r-format</span> instructions have three register operands, so we will need to read two data words from the register file and write one data word into the **register file** for each instruction.  for each data word to be read from teh registers, we need an input to the **register file** that specifies the **register number** to be read and an output from teh register file that will carry the value that has been read from the registers.  to write a data word, we will need two inputs -  one to specify the **register number** to be written and one to supply the **data** to be written into the register.  the register file controlled by the write control signal, which must be asserted for a write to occur at the clock edge.  item a in the figure below shows the result; we need a total of four inputs (three for register numbers and one for data) and two outputs (both for data).  the register number inputs are 5 bits wide to specify one of 32 registers $32 = 2^{5}$, where as the data input and two data output buses are each 64 bits wide.
+
 
 ##  overview of pipelining
 
