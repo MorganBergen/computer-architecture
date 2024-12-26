@@ -1,19 +1,22 @@
 # computer architecture
 
-##  description
+this repository contains an introduction to a multilevel approach to computer systems, with an emphasis on micro architecture and instruction set architecture levels.  this repo also contains notes on techniques to improve performance such as cache memory and instruction level parallelism.
 
-introduces a multilevel approach to computer systems, with an emphasis on micro architecture and instruction set architecture levels.  also introduces techniques to improve performance such as cache memory and instruction level parallelism.
+[01  introduction to computers](./notes/01-introduction.md)
 
-##  book notes
+[02  multilevel concept of computers](./notes/02-multilevel.md)
 
-[01 introduction](./notes/01-introduction.md) <br>
-[02 structured computer organization](./notes/01.1-structured-computer-organization.md) <br>
-[03 the processor](./notes/03-the-processor.md) <br>
-[04 memory hierarchy](./notes/04-memory-hierarchy.md) <br>
+[03  the processor](./notes/03-processor.md)
+
+[04  memory hierarchy](./notes/04-memory.md)
+
+[05  parallel processors](./notes/05-parallel.md)
 
 ##  textbooks
 
-[computer organization and design: the hardware / software interface, arm edition](./info/01-book.pdf) and [structured computer organization, 6th edition](./info/00-book.pdf)
+[computer organization and design: the hardware / software interface, arm edition](./info/01-book.pdf) 
+
+[structured computer organization, 6th edition](./info/00-book.pdf)
 
 ##  concepts
 
@@ -47,16 +50,3 @@ introduces a multilevel approach to computer systems, with an emphasis on micro 
 -  sisd, mimd, simd, spmd, and vector
 -  hardware multithreading
 -  multicore and other shared memory multiprocessors
-
-##  grading criteria
-
-| grading assignments |  values % |
-|:-------------------:|:---------:|
-| reading on zybooks  |  10%      |
-| homework 5 of 6     |  15%      |
-| quiz 2 of 3         |  10%      |
-| exam 1              |  20%      |
-| exam 2              |  20%      |
-| exam 3              |  25%      |
-
-
