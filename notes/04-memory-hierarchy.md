@@ -24,6 +24,8 @@ this underlies both the way in which you did you work in the library and the way
 
 ##  memory technologies
 
+
+
 ##  the basic of caches
 
 ##  virtual machines
@@ -47,5 +49,4 @@ true.  data may exhibit both spatial and temporal locality.  sequential access t
 **temporal locality** -  the locality principle stating that if a data location is referenced then it will tend to be referenced again soon.  essentially the reuse of a specific resource within a short time is temporal locality.
 
 **spatial locality** the locality principle stating that if a data location is referenced, data locations with nearby addresses will tend to be referenced soon.  the use of resources stored closely together is known as spatial locality.
-
 
